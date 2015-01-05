@@ -9,7 +9,7 @@ public class BeanHelper {
 	private ApplicationContext ctx;
 	private static BeanHelper INSTANCE;
 	
-	BeanHelper() {
+	private BeanHelper() {
 		ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 	}
 	
