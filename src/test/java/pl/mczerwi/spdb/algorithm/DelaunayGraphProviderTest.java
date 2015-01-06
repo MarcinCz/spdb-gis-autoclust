@@ -1,4 +1,4 @@
-package pl.mczerwi.spdb.algorithm.delaunay;
+package pl.mczerwi.spdb.algorithm;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -6,18 +6,18 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.mczerwi.spdb.algorithm.DelaunayTestData;
+import pl.mczerwi.spdb.autoclust.DelaunayGraphProvider;
 import pl.mczerwi.spdb.dao.PointsDAO;
 import pl.mczerwi.spdb.model.Graph;
 
 public class DelaunayGraphProviderTest {
 
-	private DelaunayGraphProvider testee = new DelaunayGraphProvider();
+	private DelaunayGraphProvider testee;
 	private PointsDAO pointsDAO = mock(PointsDAO.class);
 	
 	@Before
 	public void setUp() {
-		testee.setPointsDao(pointsDAO);
+		testee = new DelaunayGraphProvider(pointsDAO);
 	}
 	
 	@Test

@@ -5,6 +5,8 @@ public class Edge {
 	private Point firstPoint;
 	private Point secondPoint;
 	private double distance;
+	private EdgeType type;
+	private boolean isRemoved = false;
 	
 	public Edge(Point firstPoint, Point secondPoint) {
 		this.firstPoint = firstPoint;
@@ -47,5 +49,21 @@ public class Edge {
 	@Override
 	public int hashCode() {
 		return (firstPoint.getId() + "-" + secondPoint.getId()).hashCode();
+	}
+
+	public EdgeType getType() {
+		return type;
+	}
+
+	public void setType(EdgeType type) {
+		this.type = type;
+	}
+
+	public boolean isRemoved() {
+		return isRemoved;
+	}
+
+	public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
 	}
 }
