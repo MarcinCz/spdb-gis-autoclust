@@ -1,4 +1,4 @@
-package pl.mczerwi.spdb.cluster;
+package pl.mczerwi.spdb.algorithm;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ public class Clusterer {
 	@Autowired
 	private PointsDAO pointsDAO;
 	
+	private Clusterer() {};
+	
 	public static Clusterer getInstance() {
 		Clusterer clust = new Clusterer();
 		BeanHelper.getInstance().initBean(clust);
@@ -20,7 +22,9 @@ public class Clusterer {
 	}
 	
 	public void cluster() {
-		List<Point> points = pointsDAO.getPoints();
-		points = points;
+		System.out.println( "Hello World2!" );
+//		List<Point> points = pointsDAO.getPoints();
+//		points = points;
+		pointsDAO.getDelaunayTriangulationPolygonPoints();
 	}
 }

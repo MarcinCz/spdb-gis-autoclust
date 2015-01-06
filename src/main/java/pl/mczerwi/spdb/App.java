@@ -1,6 +1,6 @@
 package pl.mczerwi.spdb;
 
-import pl.mczerwi.spdb.cluster.Clusterer;
+import pl.mczerwi.spdb.algorithm.Clusterer;
 
 /**
  * Hello world!

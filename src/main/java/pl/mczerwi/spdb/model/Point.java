@@ -1,6 +1,6 @@
 package pl.mczerwi.spdb.model;
 
-public class Point {
+public class Point implements Comparable<Point>{
 
 	private String id;
 	private double x;
@@ -9,6 +9,12 @@ public class Point {
 	public Point() {
 		
 	};
+	
+	public Point(String id, double x, double y) {
+		this.id = id;
+		this.x = x;
+		this.y = y;
+	}
 	
 	public double getX() {
 		return x;
@@ -29,5 +35,9 @@ public class Point {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int compareTo(Point o) {
+		return o.id.compareTo(this.id);
 	}
 }
