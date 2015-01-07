@@ -1,4 +1,4 @@
-package pl.mczerwi.spdb.algorithm;
+package pl.mczerwi.spdb.autoclust;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;

@@ -1,4 +1,4 @@
-package pl.mczerwi.spdb.algorithm;
+package pl.mczerwi.spdb.autoclust;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +23,7 @@ public class ConnectedComponentTest {
 	
 	@Test
 	public void shouldGenerateCorrectComponent() {
-		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1, 1);
+		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1);
 		assertEquals(4, component.getPoints().size());
 		for(Point point: DelaunayTestData.getPolygonPoints()) {
 			assertTrue(component.getPoints().contains(point));
@@ -32,8 +32,8 @@ public class ConnectedComponentTest {
 	
 	@Test
 	public void shouldGenerateEqualComponents() {
-		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1, 1);
-		ConnectedComponent component2 = ConnectedComponent.generateComponent(graph, DelaunayTestData.P4, 2);
+		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1);
+		ConnectedComponent component2 = ConnectedComponent.generateComponent(graph, DelaunayTestData.P4);
 		
 		assertEquals(component, component2);
 	}

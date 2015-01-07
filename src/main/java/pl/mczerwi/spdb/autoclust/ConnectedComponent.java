@@ -10,15 +10,8 @@ import pl.mczerwi.spdb.model.Point;
 
 public class ConnectedComponent {
 
-	private int id;
 	private Set<Point> points = new TreeSet<Point>();
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public Set<Point> getPoints() {
 		return points;
 	}
@@ -31,11 +24,10 @@ public class ConnectedComponent {
 		this.points.add(point);
 	}
 	
-	public static ConnectedComponent generateComponent(Graph graph, Point point, int id) {
+	public static ConnectedComponent generateComponent(Graph graph, Point point) {
 		//create new connected component using breadth first search
 		//it searches for all points connected by other edges
 		ConnectedComponent component = new ConnectedComponent();
-		component.setId(id);
 		component.addPoint(point);
 		LinkedList<Point> pointsToVisit = new LinkedList<Point>();
 		pointsToVisit.push(point);
@@ -53,11 +45,8 @@ public class ConnectedComponent {
 		return component;
 	}
 	
-	public static ConnectedComponent getTrivialConnectedComponent(Point point, int id) {
-		ConnectedComponent component = new ConnectedComponent();
-		component.addPoint(point);
-		component.id = id;
-		return component;
+	public boolean isTrivial() {
+		return points.size() == 1;
 	}
 	
 	@Override
@@ -68,5 +57,10 @@ public class ConnectedComponent {
 			ConnectedComponent component = (ConnectedComponent) obj;
 			return this.getPoints().equals(component.getPoints());
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return points.hashCode();
 	}
 }

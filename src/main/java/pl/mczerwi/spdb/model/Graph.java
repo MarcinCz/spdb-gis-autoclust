@@ -16,6 +16,14 @@ public class Graph {
 		return adjecencyMap.get(point);
 	}
 	
+	public Set<Edge> getEdges() {
+		Set<Edge> allEdges = new HashSet<Edge>();
+		for(Set<Edge> edges: adjecencyMap.values()) {
+			allEdges.addAll(edges);
+		}
+		return allEdges;
+	}
+	
 	public void addEdge(Point firstPoint, Point secondPoint) {
 		addEdge(new Edge(firstPoint, secondPoint));
 	}

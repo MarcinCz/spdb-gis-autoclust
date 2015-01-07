@@ -4,7 +4,7 @@ public class Point implements Comparable<Point>{
 
 	public final static int CLUSTER_UNDEFINED = -1;
 	
-	private String id;
+	private int id;
 	private double x;
 	private double y;
 	private int cluster = CLUSTER_UNDEFINED;
@@ -13,7 +13,7 @@ public class Point implements Comparable<Point>{
 		
 	};
 	
-	public Point(String id, double x, double y) {
+	public Point(int id, double x, double y) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
@@ -32,16 +32,16 @@ public class Point implements Comparable<Point>{
 		this.y = y;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
 	public int compareTo(Point o) {
-		return o.id.compareTo(this.id);
+		return String.valueOf(o.id).compareTo(String.valueOf(this.id));
 	}
 
 	public int getCluster() {
@@ -54,7 +54,7 @@ public class Point implements Comparable<Point>{
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null || !(obj instanceof Edge)) {
+		if(obj == null || !(obj instanceof Point)) {
 			return false;
 		} else {
 			Point point = (Point) obj;
@@ -64,7 +64,12 @@ public class Point implements Comparable<Point>{
 	
 	@Override
 	public int hashCode() {
-		return this.id.hashCode();
+		return String.valueOf(this.id).hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return this.id + ": x=" + this.x + ", y=" + this.y + " cluster=" + this.cluster;
 	}
 
 }
