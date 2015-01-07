@@ -54,7 +54,7 @@ public class AutoClust {
 			stDeviationSum += data.getLocalStDeviation();
 			edgesStatisticalDataMap.put(point, data);
 		}
-		double meanStDeviation = stDeviationSum / graph.getEdges().size(); 
+		double meanStDeviation = stDeviationSum / graph.getPoints().size(); 
 		
 		for(Point point: graph.getPoints()) {
 			classifyEdges(point, edgesStatisticalDataMap.get(point), meanStDeviation);
@@ -115,7 +115,7 @@ public class AutoClust {
 		
 		//phase 3
 		for(Point point: graph.getPoints()) {
-			Set<Edge> edgesWithinTwo = new HashSet(graph.getEdgesForPoint(point));
+			Set<Edge> edgesWithinTwo = new HashSet<Edge>(graph.getEdgesForPoint(point));
 			for(Edge edge: graph.getEdgesForPoint(point)) {
 				for(Edge edge2: graph.getEdgesForPoint(edge.getSecondPoint())) {
 					edgesWithinTwo.add(edge2);
@@ -142,7 +142,6 @@ public class AutoClust {
 
 	private void classifyEdges(Point point, EdgesStatisticalData data, double meanStDeviation) {
 		Set<Edge> edges = graph.getEdgesForPoint(point);
-		int edgesCount = edges.size();
 		
 		//edge classification based on local mean and mean st. deviation
 		for(Edge edge: edges) {
@@ -186,7 +185,6 @@ public class AutoClust {
 			}
 			
 			public double getLocalMean() {
-				// TODO Auto-generated method stub
 				return localMean;
 			}
 		};
