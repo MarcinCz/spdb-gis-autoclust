@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 
-import pl.mczerwi.spdb.dao.PointsDAO;
-import pl.mczerwi.spdb.helper.BeanHelper;
 import pl.mczerwi.spdb.model.Edge;
 import pl.mczerwi.spdb.model.EdgeType;
 import pl.mczerwi.spdb.model.Graph;
@@ -18,12 +16,15 @@ import pl.mczerwi.spdb.model.Point;
 
 public class AutoClust {
 	
+	private final Logger logger = Logger.getLogger(this.getClass());
+
 	private Graph graph;
 	
 	public AutoClust() {	
 	}
 	
-	public void run(Graph graph) {
+	public void clusterGraph(Graph graph) {
+		logger.info("Starting AUTOCLUST");
 		this.graph = graph;
 		
 		//phase 1 - classify edges
@@ -45,6 +46,7 @@ public class AutoClust {
 		for(Point point: graph.getPoints()) {
 			connectedComponents.put(point, ConnectedComponent.generateComponent(graph, point));
 		}
+		logger.info("Phase 1 finished");
 		
 		//phase 2
 		for(Point point: graph.getPoints()) {
@@ -92,6 +94,7 @@ public class AutoClust {
 				}
 			}
 		}
+		logger.info("Phase 2 finished");
 		
 		//phase 3
 		for(Point point: graph.getPoints()) {
@@ -116,6 +119,7 @@ public class AutoClust {
 				}
 			}
 		}
+		logger.info("Phase 3 finished");
 	}
 
 	private void classifyEdges(Point point, EdgesStatisticalData data, double meanStDeviation) {

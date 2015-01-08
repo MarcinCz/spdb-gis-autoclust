@@ -16,7 +16,7 @@ public class App
     	DelaunayGraphProvider graphProvider = BeanHelper.getInstance().getInitializedBean(new DelaunayGraphProvider());
     	AutoClust autoClust = new AutoClust();
     	Graph graph = graphProvider.getDelaunayGraph();
-    	autoClust.run(graph);
+    	autoClust.clusterGraph(graph);
     	ClusterSaver clusterSaver = BeanHelper.getInstance().getInitializedBean(new ClusterSaver());
     	clusterSaver.saveForGraph(graph);
     }

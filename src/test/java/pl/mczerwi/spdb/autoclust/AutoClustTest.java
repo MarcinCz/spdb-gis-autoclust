@@ -19,7 +19,7 @@ public class AutoClustTest {
 		trainGraphProvider();
 		
 		Graph graph = graphProvider.getDelaunayGraph();
-		testee.run(graph);
+		testee.clusterGraph(graph);
 		
 		for(Point point: graph.getPoints()) {
 			System.out.println(point);

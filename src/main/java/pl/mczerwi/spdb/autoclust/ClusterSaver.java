@@ -3,6 +3,7 @@ package pl.mczerwi.spdb.autoclust;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.mczerwi.spdb.dao.PointsDAO;
@@ -10,6 +11,8 @@ import pl.mczerwi.spdb.model.Graph;
 import pl.mczerwi.spdb.model.Point;
 
 public class ClusterSaver {
+
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	@Autowired
 	private PointsDAO pointsDAO;
@@ -39,5 +42,6 @@ public class ClusterSaver {
 		}
 		
 		pointsDAO.updatePoints(graph.getPoints());
+		logger.info("Saved clusters");
 	}
 }
