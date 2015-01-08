@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.mczerwi.spdb.dao.PointsDAO;
+import pl.mczerwi.spdb.helper.BeanHelper;
 import pl.mczerwi.spdb.model.Graph;
 import pl.mczerwi.spdb.model.Point;
 
@@ -17,7 +18,11 @@ public class ClusterSaver {
 	@Autowired
 	private PointsDAO pointsDAO;
 	
-	public ClusterSaver() {
+	ClusterSaver() {
+	}
+	
+	public static ClusterSaver getInstance() {
+		return BeanHelper.getInstance().getInitializedBean(new ClusterSaver());
 	}
 	
 	public void setPointsDAO(PointsDAO pointsDAO) {

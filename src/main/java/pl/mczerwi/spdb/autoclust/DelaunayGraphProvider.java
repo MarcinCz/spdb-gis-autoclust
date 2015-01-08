@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.mczerwi.spdb.dao.PointsDAO;
+import pl.mczerwi.spdb.helper.BeanHelper;
 import pl.mczerwi.spdb.model.Graph;
 import pl.mczerwi.spdb.model.Point;
 
@@ -16,7 +17,11 @@ public class DelaunayGraphProvider {
 	@Autowired
 	private PointsDAO pointsDAO;
 	
-	public DelaunayGraphProvider() {
+	DelaunayGraphProvider() {
+	}
+	
+	public static DelaunayGraphProvider getInstance() {
+		return BeanHelper.getInstance().getInitializedBean(new DelaunayGraphProvider());
 	}
 	
 	public Graph getDelaunayGraph() {

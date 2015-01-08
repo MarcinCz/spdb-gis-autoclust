@@ -1,6 +1,8 @@
 package pl.mczerwi.spdb.autoclust;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -34,17 +36,23 @@ public class ConnectedComponent {
 		
 		while(pointsToVisit.size() > 0) {
 			Point visitedPoint = pointsToVisit.pop();
-			for(Edge edge: graph.getEdgesForPoint(visitedPoint)) {
+			for(Edge edge: graph.getOutgoingEdgesForPoint(visitedPoint)) {
 				if(!edge.isRemoved() && !component.getPoints().contains(edge.getSecondPoint())) {
 					component.addPoint(edge.getSecondPoint());
 					pointsToVisit.push(edge.getSecondPoint());
+				}
+			}
+			for(Edge edge: graph.getIngoingEdgesForPoint(visitedPoint)) {
+				if(!edge.isRemoved() && !component.getPoints().contains(edge.getFirstPoint())) {
+					component.addPoint(edge.getFirstPoint());
+					pointsToVisit.push(edge.getFirstPoint());
 				}
 			}
 		}
 		
 		return component;
 	}
-	
+
 	public boolean isTrivial() {
 		return points.size() == 1;
 	}

@@ -12,13 +12,19 @@ public class Graph {
 	private final Logger logger = Logger.getLogger(this.getClass());
 
 	private Map<Point, Set<Edge>> adjecencyMap = new HashMap<Point, Set<Edge>>();
+	private Map<Point, Set<Edge>> reversedAdjecencyMap = new HashMap<Point, Set<Edge>>();
 	
 	public Set<Point> getPoints() {
 		return adjecencyMap.keySet();
 	}
 	
-	public Set<Edge> getEdgesForPoint(Point point) {
+	
+	public Set<Edge> getOutgoingEdgesForPoint(Point point) {
 		return adjecencyMap.get(point);
+	}
+	
+	public Set<Edge> getIngoingEdgesForPoint(Point point) {
+		return reversedAdjecencyMap.get(point);
 	}
 	
 	public Set<Edge> getEdges() {
@@ -42,15 +48,21 @@ public class Graph {
 		maybeAddNewPoint(edge.getFirstPoint());
 		maybeAddNewPoint(edge.getSecondPoint());
 		
+		Edge reversedEdge = edge.getReversedEdge();
+		
 		adjecencyMap.get(edge.getFirstPoint()).add(edge);
+		reversedAdjecencyMap.get(edge.getFirstPoint()).add(reversedEdge);
 		logger.trace("Added new edge to graph " + edge);
-		adjecencyMap.get(edge.getSecondPoint()).add(edge.getReversedEdge());
+		
+		adjecencyMap.get(edge.getSecondPoint()).add(reversedEdge);
+		reversedAdjecencyMap.get(edge.getSecondPoint()).add(edge);
 		logger.trace("Added new edge to graph " + edge.getReversedEdge());
 	}
 	
 	private void maybeAddNewPoint(Point point) {
 		if(!adjecencyMap.containsKey(point)) {
 			adjecencyMap.put(point, new HashSet<Edge>());
+			reversedAdjecencyMap.put(point, new HashSet<Edge>());
 		}
 	}
 }
