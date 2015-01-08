@@ -22,7 +22,7 @@ public class ConnectedComponentTest {
 	}
 	
 	@Test
-	public void shouldGenerateCorrectComponent() {
+	public void shouldGenerateCorrectComponents() {
 		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1);
 		assertEquals(4, component.getPoints().size());
 		for(Point point: DelaunayTestData.getPolygonPoints()) {

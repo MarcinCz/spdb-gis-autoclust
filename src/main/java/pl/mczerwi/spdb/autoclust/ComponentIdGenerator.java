@@ -1,6 +1,6 @@
 package pl.mczerwi.spdb.autoclust;
 
-public class ClusterNumberGenerator {
+public class ComponentIdGenerator {
 
 	private int lastNumber = 0;
 	

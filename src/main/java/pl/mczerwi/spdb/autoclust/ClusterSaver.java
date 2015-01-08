@@ -1,7 +1,6 @@
 package pl.mczerwi.spdb.autoclust;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +30,14 @@ public class ClusterSaver {
 	
 	public void saveForGraph(Graph graph) {
 		//get connected components
-		Set<ConnectedComponent> connectedComponents = new HashSet<ConnectedComponent>();
-		for(Point point: graph.getPoints()) {
-			connectedComponents.add(ConnectedComponent.generateComponent(graph, point));
-		}
+		Map<Point, ConnectedComponent> connectedComponents = ConnectedComponent.generateConnectedComponents(graph);
+		
 		//set cluster numbers in points
-		ClusterNumberGenerator clusterNumberGenerator = new ClusterNumberGenerator();
-		for(ConnectedComponent component: connectedComponents) {
+		ComponentIdGenerator clusterNumberGenerator = new ComponentIdGenerator();
+		for(Point point: graph.getPoints()) {
+			ConnectedComponent component = connectedComponents.get(point);
 			if(!component.isTrivial()) {
-				int clusterNumber = clusterNumberGenerator.getNext();
-				for(Point point: component.getPoints()) {
-					point.setCluster(clusterNumber);
-				}
+				point.setCluster(connectedComponents.get(point).getId());
 			}
 		}
 		

@@ -1,10 +1,12 @@
 package pl.mczerwi.spdb.autoclust;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+
+import org.apache.log4j.Logger;
 
 import pl.mczerwi.spdb.model.Edge;
 import pl.mczerwi.spdb.model.Graph;
@@ -12,7 +14,11 @@ import pl.mczerwi.spdb.model.Point;
 
 public class ConnectedComponent {
 
-	private Set<Point> points = new TreeSet<Point>();
+	private final static Logger logger = Logger.getLogger(ConnectedComponent.class);
+
+	private Set<Point> points = new LinkedHashSet<Point>();
+	
+	private int id;
 	
 	public Set<Point> getPoints() {
 		return points;
@@ -22,11 +28,42 @@ public class ConnectedComponent {
 		this.points = points;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	private void addPoint(Point point) {
 		this.points.add(point);
 	}
 	
-	public static ConnectedComponent generateComponent(Graph graph, Point point) {
+	public static Map<Point, ConnectedComponent> generateConnectedComponents(Graph graph) {
+		ComponentIdGenerator idGenerator = new ComponentIdGenerator();
+		Map<Point, ConnectedComponent> connectedComponents = new HashMap<Point, ConnectedComponent>();
+		for(Point point: graph.getPoints()) {
+			boolean hasComponent = false;
+			for(ConnectedComponent component: connectedComponents.values()) {
+				if(component.getPoints().contains(point)) {
+					connectedComponents.put(point, component);
+					component.setId(idGenerator.getNext());
+					hasComponent = true;
+					break;
+				}
+			}
+			if(!hasComponent) {
+				ConnectedComponent component = generateComponent(graph, point);
+				connectedComponents.put(point, component);
+				component.setId(idGenerator.getNext());
+			}
+		}
+		
+		return connectedComponents;
+	}
+	
+	static ConnectedComponent generateComponent(Graph graph, Point point) {
 		//create new connected component using breadth first search
 		//it searches for all points connected by other edges
 		ConnectedComponent component = new ConnectedComponent();
@@ -49,7 +86,7 @@ public class ConnectedComponent {
 				}
 			}
 		}
-		
+		logger.trace("Generated component for point " + point.getId());
 		return component;
 	}
 
@@ -71,4 +108,5 @@ public class ConnectedComponent {
 	public int hashCode() {
 		return points.hashCode();
 	}
+
 }

@@ -43,10 +43,7 @@ public class AutoClust {
 		}
 		
 		//create connected components
-		Map<Point, ConnectedComponent> connectedComponents = new HashMap<Point, ConnectedComponent>();
-		for(Point point: graph.getPoints()) {
-			connectedComponents.put(point, ConnectedComponent.generateComponent(graph, point));
-		}
+		Map<Point, ConnectedComponent> connectedComponents = ConnectedComponent.generateConnectedComponents(graph);
 		logger.info("Phase 1 finished");
 		
 		//phase 2
