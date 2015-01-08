@@ -27,10 +27,11 @@ public class DelaunayGraphProviderTest {
 		
 		Graph graph = testee.getDelaunayGraph();
 		
-		assertEquals(4, graph.getPoints().size());
+		assertEquals(5, graph.getPoints().size());
 		assertEquals(2, graph.getOutgoingEdgesForPoint(DelaunayTestData.P1).size());
-		assertEquals(3, graph.getOutgoingEdgesForPoint(DelaunayTestData.P2).size());
+		assertEquals(4, graph.getOutgoingEdgesForPoint(DelaunayTestData.P2).size());
 		assertEquals(3, graph.getOutgoingEdgesForPoint(DelaunayTestData.P3).size());
-		assertEquals(2, graph.getOutgoingEdgesForPoint(DelaunayTestData.P4).size());
+		assertEquals(3, graph.getOutgoingEdgesForPoint(DelaunayTestData.P4).size());
+		assertEquals(2, graph.getOutgoingEdgesForPoint(DelaunayTestData.P5).size());
 	}
 }

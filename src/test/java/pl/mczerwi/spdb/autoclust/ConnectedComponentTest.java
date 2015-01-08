@@ -24,7 +24,7 @@ public class ConnectedComponentTest {
 	@Test
 	public void shouldGenerateCorrectComponents() {
 		ConnectedComponent component = ConnectedComponent.generateComponent(graph, DelaunayTestData.P1);
-		assertEquals(4, component.getPoints().size());
+		assertEquals(5, component.getPoints().size());
 		for(Point point: DelaunayTestData.getPolygonPoints()) {
 			assertTrue(component.getPoints().contains(point));
 		}
