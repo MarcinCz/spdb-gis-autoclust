@@ -20,7 +20,9 @@ public class BeanHelper {
 		
 		return INSTANCE;
 	}
-	public void initBean(Object bean) {
+
+	public<T> T getInitializedBean(T bean) {
 		ctx.getAutowireCapableBeanFactory().autowireBean(bean);
+		return bean;
 	}
 }

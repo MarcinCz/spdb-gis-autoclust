@@ -23,11 +23,7 @@ public class PointsDAOImpl implements PointsDAO {
 	private final static String CLUSTER_COLUMN = "cluster";
 	private final static String X_ALIAS = "x";
 	private final static String Y_ALIAS = "y";
-	
-	private final static String SELECT_POINTS = String.format("SELECT ST_X(the_geom) as %1$s, ST_Y(the_geom) as %2$s FROM \"%3$s\"",
-																X_ALIAS,//1
-																Y_ALIAS,//2
-																TABLE_NAME);//3
+
 	private final static String SELECT_DELAUNAY_POLYGONS = 
 			String.format("select sA.%1$s, ST_X(sA.%2$s) as %3$s, ST_Y(sA.%2$s) as %4$s " +
 			 			"from \"%5$s\" Sa, (select (ST_DumpPoints(sB.geom)).geom " +
@@ -48,20 +44,6 @@ public class PointsDAOImpl implements PointsDAO {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-	
-	public List<Point> getPoints() {
-		List<Point> points = jdbcTemplate.query(SELECT_POINTS, new RowMapper<Point>() {
-
-			public Point mapRow(ResultSet rs, int rowNumber) throws SQLException {
-				Point point = new Point();
-				point.setX(rs.getDouble(1));
-				point.setY(rs.getDouble(2));
-				return point;
-			}
-		});
-		
-		return points;
-	}
 
 	public List<Point> getDelaunayTriangulationPolygonPoints() {
 		return jdbcTemplate.query(SELECT_DELAUNAY_POLYGONS, new RowMapper<Point>() {

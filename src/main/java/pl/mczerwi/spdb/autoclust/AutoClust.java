@@ -18,33 +18,13 @@ import pl.mczerwi.spdb.model.Point;
 
 public class AutoClust {
 	
-	@Autowired
-	private PointsDAO pointsDAO;
-	private DelaunayGraphProvider graphProvider;
 	private Graph graph;
-	private ClusterNumberGenerator clusterNumberGenerator;
 	
-	private AutoClust() {
-		
+	public AutoClust() {	
 	}
 	
-	//use only for tests
-	AutoClust(PointsDAO pointsDAO, DelaunayGraphProvider graphProvider, ClusterNumberGenerator clusterNumberGenerator) {
-		this.pointsDAO = pointsDAO;
-		this.graphProvider = graphProvider;
-		this.clusterNumberGenerator = clusterNumberGenerator;
-	};
-	
-	public static AutoClust getInstance() {
-		AutoClust clust = new AutoClust();
-		BeanHelper.getInstance().initBean(clust);
-		clust.graphProvider = new DelaunayGraphProvider(clust.pointsDAO);
-		clust.clusterNumberGenerator = new ClusterNumberGenerator();
-		return clust;
-	}
-	
-	public void run() {
-		graph = graphProvider.getDelaunayGraph();
+	public void run(Graph graph) {
+		this.graph = graph;
 		
 		//phase 1 - classify edges
 		double stDeviationSum = 0;
@@ -136,8 +116,6 @@ public class AutoClust {
 				}
 			}
 		}
-		
-		saveClusterNumbers();
 	}
 
 	private void classifyEdges(Point point, EdgesStatisticalData data, double meanStDeviation) {
@@ -188,26 +166,5 @@ public class AutoClust {
 				return localMean;
 			}
 		};
-	}
-	
-
-	private void saveClusterNumbers() {
-		//get final connected components
-		Set<ConnectedComponent> finalConnectedComponents = new HashSet<ConnectedComponent>();
-		for(Point point: graph.getPoints()) {
-			finalConnectedComponents.add(ConnectedComponent.generateComponent(graph, point));
-		}
-		//set cluster numbers in points
-		for(ConnectedComponent component: finalConnectedComponents) {
-			if(!component.isTrivial()) {
-				int clusterNumber = clusterNumberGenerator.getNext();
-				for(Point point: component.getPoints()) {
-					point.setCluster(clusterNumber);
-				}
-			}
-		}
-		
-		pointsDAO.updatePoints(graph.getPoints());
-	}
-	
+	}	
 }

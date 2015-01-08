@@ -17,7 +17,8 @@ public class DelaunayGraphProviderTest {
 	
 	@Before
 	public void setUp() {
-		testee = new DelaunayGraphProvider(pointsDAO);
+		testee = new DelaunayGraphProvider();
+		testee.setPointsDao(pointsDAO);
 	}
 	
 	@Test

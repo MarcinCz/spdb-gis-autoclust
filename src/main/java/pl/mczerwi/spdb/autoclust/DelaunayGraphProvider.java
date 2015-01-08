@@ -2,16 +2,18 @@ package pl.mczerwi.spdb.autoclust;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import pl.mczerwi.spdb.dao.PointsDAO;
 import pl.mczerwi.spdb.model.Graph;
 import pl.mczerwi.spdb.model.Point;
 
 public class DelaunayGraphProvider {
 
+	@Autowired
 	private PointsDAO pointsDAO;
 	
-	public DelaunayGraphProvider(PointsDAO pointsDAO) {
-		this.pointsDAO = pointsDAO;
+	public DelaunayGraphProvider() {
 	}
 	
 	public Graph getDelaunayGraph() {
