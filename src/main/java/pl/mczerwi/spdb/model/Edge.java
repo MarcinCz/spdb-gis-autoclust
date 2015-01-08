@@ -66,4 +66,9 @@ public class Edge {
 	public void setRemoved(boolean isRemoved) {
 		this.isRemoved = isRemoved;
 	}
+	
+	@Override
+	public String toString() {
+		return firstPoint.getId() + "-" + secondPoint.getId() + "(dist: " + distance + ")";
+	}
 }

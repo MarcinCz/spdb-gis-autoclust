@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 public class Graph {
+	
+	private final Logger logger = Logger.getLogger(this.getClass());
+
 	private Map<Point, Set<Edge>> adjecencyMap = new HashMap<Point, Set<Edge>>();
 	
 	public Set<Point> getPoints() {
@@ -24,7 +29,12 @@ public class Graph {
 		return allEdges;
 	}
 	
-	public void addEdge(Point firstPoint, Point secondPoint) {
+	/**
+	 * Adds two edges from first point to second point and reversed one.
+	 * @param firstPoint
+	 * @param secondPoint
+	 */
+	public void addEdges(Point firstPoint, Point secondPoint) {
 		addEdge(new Edge(firstPoint, secondPoint));
 	}
 	
@@ -33,7 +43,9 @@ public class Graph {
 		maybeAddNewPoint(edge.getSecondPoint());
 		
 		adjecencyMap.get(edge.getFirstPoint()).add(edge);
+		logger.trace("Added new edge to graph " + edge);
 		adjecencyMap.get(edge.getSecondPoint()).add(edge.getReversedEdge());
+		logger.trace("Added new edge to graph " + edge.getReversedEdge());
 	}
 	
 	private void maybeAddNewPoint(Point point) {

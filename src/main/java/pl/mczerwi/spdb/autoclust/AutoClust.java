@@ -36,6 +36,7 @@ public class AutoClust {
 			edgesStatisticalDataMap.put(point, data);
 		}
 		double meanStDeviation = stDeviationSum / graph.getPoints().size(); 
+		logger.trace("Mean standard deviation: " + meanStDeviation);
 		
 		for(Point point: graph.getPoints()) {
 			classifyEdges(point, edgesStatisticalDataMap.get(point), meanStDeviation);
@@ -52,19 +53,17 @@ public class AutoClust {
 		for(Point point: graph.getPoints()) {
 			List<ConnectedComponent> shortConnectedComponents = new ArrayList<ConnectedComponent>();
 			//get short edges count and components connected by short edges
-			int shortEdgesCount = 0;
 			for(Edge edge: graph.getEdgesForPoint(point)) {
 				if(edge.getType() == EdgeType.SHORT) {
-					shortEdgesCount += 1;
 					ConnectedComponent component = connectedComponents.get(edge.getSecondPoint());
-					if(!shortConnectedComponents.contains(component)) {
+					if(!component.isTrivial() && !shortConnectedComponents.contains(component)) {
 						shortConnectedComponents.add(component);
 					}
 				}
 			}
 			
-			//this phase is applied only to points with short edges
-			if(shortEdgesCount > 0) {
+			//this phase is applied only to points with short connected non-trivial components
+			if(shortConnectedComponents.size() > 0) {
 				ConnectedComponent maxShortConnectedComponent = shortConnectedComponents.get(0);
 				
 				//find maximal short connected component if more than 1 component
@@ -86,7 +85,7 @@ public class AutoClust {
 					}
 				}
 				
-				//restore short edges which connectes to selected component
+				//restore short edges which connect to selected component
 				for(Edge edge: graph.getEdgesForPoint(point)) {
 					if(edge.getType() == EdgeType.SHORT && maxShortConnectedComponent.getPoints().contains(edge.getSecondPoint())) {
 						edge.setRemoved(false);
@@ -96,12 +95,14 @@ public class AutoClust {
 		}
 		logger.info("Phase 2 finished");
 		
-		//phase 3
+//		phase 3
 		for(Point point: graph.getPoints()) {
 			Set<Edge> edgesWithinTwo = new HashSet<Edge>(graph.getEdgesForPoint(point));
 			for(Edge edge: graph.getEdgesForPoint(point)) {
 				for(Edge edge2: graph.getEdgesForPoint(edge.getSecondPoint())) {
-					edgesWithinTwo.add(edge2);
+					if(edge2.getSecondPoint() != point) {
+						edgesWithinTwo.add(edge2);
+					}
 				}
 			}
 			
@@ -125,6 +126,8 @@ public class AutoClust {
 	private void classifyEdges(Point point, EdgesStatisticalData data, double meanStDeviation) {
 		Set<Edge> edges = graph.getEdgesForPoint(point);
 		
+		logger.trace("Edge classification for point " + point.getId());
+		logger.trace("Local mean is " + data.getLocalMean());
 		//edge classification based on local mean and mean st. deviation
 		for(Edge edge: edges) {
 			if(edge.isRemoved()) {
@@ -139,6 +142,7 @@ public class AutoClust {
 			} else {
 				edge.setType(EdgeType.OTHER);
 			}
+			logger.trace("Edge " + edge + " classified as " + edge.getType().name());
 		}
 	}
 

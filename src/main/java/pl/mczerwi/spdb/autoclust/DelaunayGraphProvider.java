@@ -24,14 +24,27 @@ public class DelaunayGraphProvider {
 		Graph graph = new Graph();
 		List<Point> delaunayPoints = pointsDAO.getDelaunayTriangulationPolygonPoints();
 		for(int i = 0; i < delaunayPoints.size(); i += 4) {
-			graph.addEdge(delaunayPoints.get(i), delaunayPoints.get(i + 1));
-			graph.addEdge(delaunayPoints.get(i + 1), delaunayPoints.get(i + 2));
-			graph.addEdge(delaunayPoints.get(i + 2), delaunayPoints.get(i + 3));
+			Point point1 = getPointToAdd(graph, delaunayPoints.get(i));
+			Point point2 = getPointToAdd(graph, delaunayPoints.get(i + 1));
+			Point point3 = getPointToAdd(graph, delaunayPoints.get(i + 2));
+			graph.addEdges(point1, point2);
+			graph.addEdges(point2, point3);
+			graph.addEdges(point3, point1);
 		}
 		logger.info("Got delaunay graph with " + graph.getPoints().size() + " points and " + graph.getEdges().size() + " edges");
 		return graph;
 	}
 	
+	
+	private Point getPointToAdd(Graph graph, Point point) {
+		for(Point pointFromGraph: graph.getPoints()) {
+			if(pointFromGraph.getId() == point.getId()) {
+				return pointFromGraph;
+			}
+		}
+		return point;
+	}
+
 	public void setPointsDao(PointsDAO pointsDAO) {
 		this.pointsDAO = pointsDAO;
 	}
