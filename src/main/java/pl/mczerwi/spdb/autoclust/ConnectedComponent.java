@@ -48,7 +48,6 @@ public class ConnectedComponent {
 			for(ConnectedComponent component: connectedComponents.values()) {
 				if(component.getPoints().contains(point)) {
 					connectedComponents.put(point, component);
-					component.setId(idGenerator.getNext());
 					hasComponent = true;
 					break;
 				}
@@ -56,7 +55,7 @@ public class ConnectedComponent {
 			if(!hasComponent) {
 				ConnectedComponent component = generateComponent(graph, point);
 				connectedComponents.put(point, component);
-				component.setId(idGenerator.getNext());
+				setIdForGeneratedComponent(component, idGenerator);
 			}
 		}
 		
@@ -88,6 +87,14 @@ public class ConnectedComponent {
 		}
 		logger.trace("Generated component for point " + point.getId());
 		return component;
+	}
+	
+	private static void setIdForGeneratedComponent(ConnectedComponent component, ComponentIdGenerator generator) {
+		if(component.isTrivial()) {
+			component.setId(Point.CLUSTER_UNDEFINED);
+		} else {
+			component.setId(generator.getNext());
+		}
 	}
 
 	public boolean isTrivial() {

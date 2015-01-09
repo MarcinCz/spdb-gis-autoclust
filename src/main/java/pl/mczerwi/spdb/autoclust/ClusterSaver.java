@@ -33,7 +33,6 @@ public class ClusterSaver {
 		Map<Point, ConnectedComponent> connectedComponents = ConnectedComponent.generateConnectedComponents(graph);
 		
 		//set cluster numbers in points
-		ComponentIdGenerator clusterNumberGenerator = new ComponentIdGenerator();
 		for(Point point: graph.getPoints()) {
 			ConnectedComponent component = connectedComponents.get(point);
 			if(!component.isTrivial()) {
