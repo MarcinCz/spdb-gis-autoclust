@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import pl.mczerwi.spdb.model.Edge;
@@ -85,7 +86,9 @@ public class ConnectedComponent {
 				}
 			}
 		}
-		logger.trace("Generated component for point " + point.getId());
+		if(Logger.getRootLogger().getLevel().isGreaterOrEqual(Level.TRACE)) {
+			logger.trace("Generated component for point " + point.getId());
+		}
 		return component;
 	}
 	

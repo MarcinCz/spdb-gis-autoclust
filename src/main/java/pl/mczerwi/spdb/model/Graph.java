@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 public class Graph {
@@ -52,11 +53,15 @@ public class Graph {
 		
 		adjecencyMap.get(edge.getFirstPoint()).add(edge);
 		reversedAdjecencyMap.get(edge.getFirstPoint()).add(reversedEdge);
-		logger.trace("Added new edge to graph " + edge);
+		if(Logger.getRootLogger().getLevel().isGreaterOrEqual(Level.TRACE)) {
+			logger.trace("Added new edge to graph " + edge);
+		}
 		
 		adjecencyMap.get(edge.getSecondPoint()).add(reversedEdge);
 		reversedAdjecencyMap.get(edge.getSecondPoint()).add(edge);
-		logger.trace("Added new edge to graph " + edge.getReversedEdge());
+		if(Logger.getRootLogger().getLevel().isGreaterOrEqual(Level.TRACE)) {
+			logger.trace("Added new edge to graph " + edge.getReversedEdge());
+		}
 	}
 	
 	private void maybeAddNewPoint(Point point) {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import pl.mczerwi.spdb.model.Edge;
@@ -36,7 +37,7 @@ public class AutoClust {
 			edgesStatisticalDataMap.put(point, data);
 		}
 		double meanStDeviation = stDeviationSum / graph.getPoints().size(); 
-		logger.trace("Mean standard deviation: " + meanStDeviation);
+		logger.debug("Mean standard deviation: " + meanStDeviation);
 		
 		for(Point point: graph.getPoints()) {
 			classifyEdges(point, edgesStatisticalDataMap.get(point), meanStDeviation);
@@ -123,8 +124,8 @@ public class AutoClust {
 	private void classifyEdges(Point point, EdgesStatisticalData data, double meanStDeviation) {
 		Set<Edge> edges = graph.getOutgoingEdgesForPoint(point);
 		
-		logger.trace("Edge classification for point " + point.getId());
-		logger.trace("Local mean is " + data.getLocalMean());
+		logger.debug("Edge classification for point " + point.getId());
+		logger.debug("Local mean is " + data.getLocalMean());
 		//edge classification based on local mean and mean st. deviation
 		for(Edge edge: edges) {
 			if(edge.isRemoved()) {
@@ -139,7 +140,9 @@ public class AutoClust {
 			} else {
 				edge.setType(EdgeType.OTHER);
 			}
-			logger.trace("Edge " + edge + " classified as " + edge.getType().name());
+			if(Logger.getRootLogger().getLevel().isGreaterOrEqual(Level.TRACE)) {
+				logger.trace("Edge " + edge + " classified as " + edge.getType().name());
+			}
 		}
 	}
 

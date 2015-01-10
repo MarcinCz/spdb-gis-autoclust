@@ -39,7 +39,8 @@ public class ClusterSaver {
 				point.setCluster(connectedComponents.get(point).getId());
 			}
 		}
-		
+		logger.info("Generated components. Saving to database.");
+
 		pointsDAO.updatePoints(graph.getPoints());
 		logger.info("Saved clusters");
 	}
